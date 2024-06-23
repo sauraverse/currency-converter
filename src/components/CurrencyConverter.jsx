@@ -13,6 +13,8 @@ function CurrencyConverter() {
     const [convertedAmount, setConvertedAmount] = useState(null)
     const [converting, setConverting] = useState(false)
 
+    const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem("favorites")) || ["INR", "EUR"])
+
     const fetchCurrencies = async ()=>{
         try {
             const res = await fetch("https://api.frankfurter.app/currencies")
@@ -44,7 +46,15 @@ function CurrencyConverter() {
     }
 
     const handleFavorite = (currency)=>{
-        //add to favorite
+        let updatedFavorites = [...favorites];
+        if (favorites.includes(currency)){
+            updatedFavorites = updatedFavorites.filter((fav)=> fav !== currency)
+        }
+        else{
+            updatedFavorites.push(currency);
+        }
+        setFavorites(updatedFavorites)
+        localStorage.setItem("favorites",JSON.stringify(updatedFavorites))
     }
 
     const swapCurrency = ()=>{
@@ -53,8 +63,8 @@ function CurrencyConverter() {
     }
 
   return (
-    <div id='OutBox' className='max-w-xl mx-auto my-10 p-5 bg-white rounded-lg shadow-md'>
-        <h2 className='mb-7 text-2xl font-semibold text-gray-700 text-center'>Currency Converter</h2>
+    <div id='OutBox' className='max-w-xl mx-auto my-10 p-5 bg-white/50 rounded-lg shadow-md backdrop-blur-sm'>
+        <h2 className='underline mb-7 text-3xl font-semibold text-gray-700 text-center'>Currency Converter</h2>
 
         <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 items-end'>
             <Dropdown 
@@ -62,6 +72,7 @@ function CurrencyConverter() {
                 title='From:'
                 currency={fromCurrency}
                 setCurrency={setFromCurrency}
+                favorites={favorites}
                 handleFavorite={handleFavorite}
             />
 
@@ -76,6 +87,7 @@ function CurrencyConverter() {
                 title='To:' 
                 currency={toCurrency}
                 setCurrency={setToCurrency}
+                favorites={favorites}
                 handleFavorite={handleFavorite}/>
         </div>
         <div className='mt-4'>
