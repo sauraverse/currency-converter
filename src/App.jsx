@@ -10,7 +10,7 @@ function App() {
         className='min-h-screen bg-gray-500 flex flex-col items-center justify-center'>
         <div className='container'>
           <CurrencyConverter/>
-          <p className="text-bold text-lg text-center">Visit developer @ <a href="https://sauraverse.com" target="_blank">sauraverse.com</a></p>
+          <p className="font-bold text-lg text-center">Visit developer @ <a href="https://sauraverse.com" target="_blank" className="underline">sauraverse.com</a></p>
         </div>
         
       </div>
